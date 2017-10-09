@@ -12,22 +12,23 @@ namespace IRSI.PayrollDataGen
 {
   public class PayrollGenModule : Module
   {
-	protected override void Load(ContainerBuilder builder)
-	{
-	  LoadQuartz(builder);
-	  LoadServices(builder);
-	}
-	private static void LoadQuartz(ContainerBuilder builder)
-	{
-	  builder.Register(c => new StdSchedulerFactory().GetScheduler()).As<IScheduler>().InstancePerLifetimeScope();
-	  builder.Register(c => new AutofacJobListener(ContainerProvider.Instance)).As<IJobListener>();
-	}
+    protected override void Load(ContainerBuilder builder)
+    {
+      LoadQuartz(builder);
+      LoadServices(builder);
+    }
+    private static void LoadQuartz(ContainerBuilder builder)
+    {
+      builder.Register(c => new StdSchedulerFactory().GetScheduler()).As<IScheduler>().InstancePerLifetimeScope();
+      builder.Register(c => new AutofacJobListener(ContainerProvider.Instance)).As<IJobListener>();
+    }
 
-	private static void LoadServices(ContainerBuilder builder)
-	{
-	  builder.RegisterType<PayrollGenService>().As<IAmAHostedProcess>().PropertiesAutowired();
+    private static void LoadServices(ContainerBuilder builder)
+    {
+      builder.RegisterType<PayrollGenService>().As<IAmAHostedProcess>().PropertiesAutowired();
 
-	  builder.RegisterType<PayrollReader>().As<IPayrollReader>().InstancePerLifetimeScope();
-	}
+      builder.RegisterType<PayrollReader>().As<IPayrollReader>().InstancePerLifetimeScope();
+      builder.RegisterType<PayrollConverter>().As<IPayrollConverter>().InstancePerLifetimeScope();
+    }
   }
 }

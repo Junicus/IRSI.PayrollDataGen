@@ -7,14 +7,21 @@ namespace IRSI.PayrollDataGen.Payroll.Model
 {
   public enum TransactionType
   {
-	ClockInOut,
-	PayCode
+    ClockInOut,
+    PayCode
   }
 
   public enum PeriodType
   {
-	Unknown,
-	Shift,
-	Break
+    Unknown,
+    Shift,
+    Break
+  }
+
+  public enum TipsCalculation
+  {
+    Auto,
+    CCTips,
+    DecTips
   }
 }

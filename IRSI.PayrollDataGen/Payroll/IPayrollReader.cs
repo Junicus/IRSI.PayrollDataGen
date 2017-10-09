@@ -7,6 +7,6 @@ namespace IRSI.PayrollDataGen.Payroll
 {
   public interface IPayrollReader
   {
-	string ReadPayroll(string datedFolder);
+    AlohaData ReadPayroll(string datedFolder);
   }
 }

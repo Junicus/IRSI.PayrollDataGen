@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atlas, Version=1.9.0.0, Culture=neutral, PublicKeyToken=ce92fb4d76946cdb, processorArchitecture=MSIL">
       <HintPath>..\packages\Atlas.1.9\lib\net40\Atlas.dll</HintPath>
@@ -67,11 +85,21 @@
     <Compile Include="Payroll\IPayrollConverter.cs" />
     <Compile Include="Payroll\IPayrollReader.cs" />
     <Compile Include="Payroll\Model\Employee.cs" />
+    <Compile Include="Payroll\Model\Employees.cs" />
     <Compile Include="Payroll\Model\Enums.cs" />
+    <Compile Include="Payroll\Model\Store.cs" />
+    <Compile Include="Payroll\Model\Stores.cs" />
+    <Compile Include="Payroll\Model\Transaction.cs" />
+    <Compile Include="Payroll\Model\Transactions.cs" />
     <Compile Include="Payroll\PayrollConverter.cs" />
     <Compile Include="Payroll\PayrollReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -89,6 +117,10 @@
     </None>
     <None Include="Payroll\AlohaData.xss">
       <DependentUpon>AlohaData.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
