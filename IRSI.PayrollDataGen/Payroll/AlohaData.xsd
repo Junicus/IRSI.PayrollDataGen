@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AlohaData" targetNamespace="http://tempuri.org/AlohaData.xsd" xmlns:mstns="http://tempuri.org/AlohaData.xsd" xmlns="http://tempuri.org/AlohaData.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="Provider=VFPOLEDB.1;Data Source=C:\POS\Aloha" IsAppSettingsProperty="false" Modifier="Assembly" Name="VFPOLEDB.C:\POS\ALOHA" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="empTableAdapter" GeneratorDataComponentClassName="empTableAdapter" Name="emp" UserDataComponentName="empTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="VFPOLEDB.C:\POS\ALOHA" DbObjectName="emp" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT id, ssn, firstname, lastname FROM emp</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="id" DataSetColumn="id" />
+              <Mapping SourceColumn="ssn" DataSetColumn="ssn" />
+              <Mapping SourceColumn="firstname" DataSetColumn="firstname" />
+              <Mapping SourceColumn="lastname" DataSetColumn="lastname" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="adjtimeTableAdapter" GeneratorDataComponentClassName="adjtimeTableAdapter" Name="adjtime" UserDataComponentName="adjtimeTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="VFPOLEDB.C:\POS\ALOHA" DbObjectName="adjtime" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT employee, ssn, `date`, sysdatein, sysdateout, jobcode, inhour, inminute, outhour, outminute, hours, cctips
+FROM     adjtime
+WHERE  (invalid = 'N')</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="employee" DataSetColumn="employee" />
+              <Mapping SourceColumn="ssn" DataSetColumn="ssn" />
+              <Mapping SourceColumn="date" DataSetColumn="date" />
+              <Mapping SourceColumn="sysdatein" DataSetColumn="sysdatein" />
+              <Mapping SourceColumn="sysdateout" DataSetColumn="sysdateout" />
+              <Mapping SourceColumn="jobcode" DataSetColumn="jobcode" />
+              <Mapping SourceColumn="inhour" DataSetColumn="inhour" />
+              <Mapping SourceColumn="inminute" DataSetColumn="inminute" />
+              <Mapping SourceColumn="outhour" DataSetColumn="outhour" />
+              <Mapping SourceColumn="outminute" DataSetColumn="outminute" />
+              <Mapping SourceColumn="hours" DataSetColumn="hours" />
+              <Mapping SourceColumn="cctips" DataSetColumn="cctips" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="gndbreakTableAdapter" GeneratorDataComponentClassName="gndbreakTableAdapter" Name="gndbreak" UserDataComponentName="gndbreakTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="VFPOLEDB.C:\POS\ALOHA" DbObjectName="gndbreak" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT employee, ssn, `date`, sysdatebeg, sysdateend, jobcode, inhour, inminute, outhour, outminute, hours
+FROM     gndbreak WHERE invalid='N'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="employee" DataSetColumn="employee" />
+              <Mapping SourceColumn="ssn" DataSetColumn="ssn" />
+              <Mapping SourceColumn="date" DataSetColumn="date" />
+              <Mapping SourceColumn="sysdatebeg" DataSetColumn="sysdatebeg" />
+              <Mapping SourceColumn="sysdateend" DataSetColumn="sysdateend" />
+              <Mapping SourceColumn="jobcode" DataSetColumn="jobcode" />
+              <Mapping SourceColumn="inhour" DataSetColumn="inhour" />
+              <Mapping SourceColumn="inminute" DataSetColumn="inminute" />
+              <Mapping SourceColumn="outhour" DataSetColumn="outhour" />
+              <Mapping SourceColumn="outminute" DataSetColumn="outminute" />
+              <Mapping SourceColumn="hours" DataSetColumn="hours" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="AlohaData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="AlohaData" msprop:Generator_UserDSName="AlohaData">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="emp" msprop:Generator_TableClassName="empDataTable" msprop:Generator_TableVarName="tableemp" msprop:Generator_TablePropName="emp" msprop:Generator_RowDeletingName="empRowDeleting" msprop:Generator_RowChangingName="empRowChanging" msprop:Generator_RowEvHandlerName="empRowChangeEventHandler" msprop:Generator_RowDeletedName="empRowDeleted" msprop:Generator_UserTableName="emp" msprop:Generator_RowChangedName="empRowChanged" msprop:Generator_RowEvArgName="empRowChangeEvent" msprop:Generator_RowClassName="empRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ssn" msprop:Generator_ColumnVarNameInTable="columnssn" msprop:Generator_ColumnPropNameInRow="ssn" msprop:Generator_ColumnPropNameInTable="ssnColumn" msprop:Generator_UserColumnName="ssn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="firstname" msprop:Generator_ColumnVarNameInTable="columnfirstname" msprop:Generator_ColumnPropNameInRow="firstname" msprop:Generator_ColumnPropNameInTable="firstnameColumn" msprop:Generator_UserColumnName="firstname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="lastname" msprop:Generator_ColumnVarNameInTable="columnlastname" msprop:Generator_ColumnPropNameInRow="lastname" msprop:Generator_ColumnPropNameInTable="lastnameColumn" msprop:Generator_UserColumnName="lastname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="adjtime" msprop:Generator_TableClassName="adjtimeDataTable" msprop:Generator_TableVarName="tableadjtime" msprop:Generator_TablePropName="adjtime" msprop:Generator_RowDeletingName="adjtimeRowDeleting" msprop:Generator_RowChangingName="adjtimeRowChanging" msprop:Generator_RowEvHandlerName="adjtimeRowChangeEventHandler" msprop:Generator_RowDeletedName="adjtimeRowDeleted" msprop:Generator_UserTableName="adjtime" msprop:Generator_RowChangedName="adjtimeRowChanged" msprop:Generator_RowEvArgName="adjtimeRowChangeEvent" msprop:Generator_RowClassName="adjtimeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="employee" msprop:Generator_ColumnVarNameInTable="columnemployee" msprop:Generator_ColumnPropNameInRow="employee" msprop:Generator_ColumnPropNameInTable="employeeColumn" msprop:Generator_UserColumnName="employee" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ssn" msprop:Generator_ColumnVarNameInTable="columnssn" msprop:Generator_ColumnPropNameInRow="ssn" msprop:Generator_ColumnPropNameInTable="ssnColumn" msprop:Generator_UserColumnName="ssn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="date" msprop:Generator_ColumnVarNameInTable="columndate" msprop:Generator_ColumnPropNameInRow="date" msprop:Generator_ColumnPropNameInTable="dateColumn" msprop:Generator_UserColumnName="date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="sysdatein" msprop:Generator_ColumnVarNameInTable="columnsysdatein" msprop:Generator_ColumnPropNameInRow="sysdatein" msprop:Generator_ColumnPropNameInTable="sysdateinColumn" msprop:Generator_UserColumnName="sysdatein" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="sysdateout" msprop:Generator_ColumnVarNameInTable="columnsysdateout" msprop:Generator_ColumnPropNameInRow="sysdateout" msprop:Generator_ColumnPropNameInTable="sysdateoutColumn" msprop:Generator_UserColumnName="sysdateout" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="jobcode" msprop:Generator_ColumnVarNameInTable="columnjobcode" msprop:Generator_ColumnPropNameInRow="jobcode" msprop:Generator_ColumnPropNameInTable="jobcodeColumn" msprop:Generator_UserColumnName="jobcode" type="xs:decimal" minOccurs="0" />
+              <xs:element name="inhour" msprop:Generator_ColumnVarNameInTable="columninhour" msprop:Generator_ColumnPropNameInRow="inhour" msprop:Generator_ColumnPropNameInTable="inhourColumn" msprop:Generator_UserColumnName="inhour" type="xs:decimal" minOccurs="0" />
+              <xs:element name="inminute" msprop:Generator_ColumnVarNameInTable="columninminute" msprop:Generator_ColumnPropNameInRow="inminute" msprop:Generator_ColumnPropNameInTable="inminuteColumn" msprop:Generator_UserColumnName="inminute" type="xs:decimal" minOccurs="0" />
+              <xs:element name="outhour" msprop:Generator_ColumnVarNameInTable="columnouthour" msprop:Generator_ColumnPropNameInRow="outhour" msprop:Generator_ColumnPropNameInTable="outhourColumn" msprop:Generator_UserColumnName="outhour" type="xs:decimal" minOccurs="0" />
+              <xs:element name="outminute" msprop:Generator_ColumnVarNameInTable="columnoutminute" msprop:Generator_ColumnPropNameInRow="outminute" msprop:Generator_ColumnPropNameInTable="outminuteColumn" msprop:Generator_UserColumnName="outminute" type="xs:decimal" minOccurs="0" />
+              <xs:element name="hours" msprop:Generator_ColumnVarNameInTable="columnhours" msprop:Generator_ColumnPropNameInRow="hours" msprop:Generator_ColumnPropNameInTable="hoursColumn" msprop:Generator_UserColumnName="hours" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cctips" msprop:Generator_ColumnVarNameInTable="columncctips" msprop:Generator_ColumnPropNameInRow="cctips" msprop:Generator_ColumnPropNameInTable="cctipsColumn" msprop:Generator_UserColumnName="cctips" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="gndbreak" msprop:Generator_TableClassName="gndbreakDataTable" msprop:Generator_TableVarName="tablegndbreak" msprop:Generator_TablePropName="gndbreak" msprop:Generator_RowDeletingName="gndbreakRowDeleting" msprop:Generator_RowChangingName="gndbreakRowChanging" msprop:Generator_RowEvHandlerName="gndbreakRowChangeEventHandler" msprop:Generator_RowDeletedName="gndbreakRowDeleted" msprop:Generator_UserTableName="gndbreak" msprop:Generator_RowChangedName="gndbreakRowChanged" msprop:Generator_RowEvArgName="gndbreakRowChangeEvent" msprop:Generator_RowClassName="gndbreakRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="employee" msprop:Generator_ColumnVarNameInTable="columnemployee" msprop:Generator_ColumnPropNameInRow="employee" msprop:Generator_ColumnPropNameInTable="employeeColumn" msprop:Generator_UserColumnName="employee" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ssn" msprop:Generator_ColumnVarNameInTable="columnssn" msprop:Generator_ColumnPropNameInRow="ssn" msprop:Generator_ColumnPropNameInTable="ssnColumn" msprop:Generator_UserColumnName="ssn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="date" msprop:Generator_ColumnVarNameInTable="columndate" msprop:Generator_ColumnPropNameInRow="date" msprop:Generator_ColumnPropNameInTable="dateColumn" msprop:Generator_UserColumnName="date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="sysdatebeg" msprop:Generator_ColumnVarNameInTable="columnsysdatebeg" msprop:Generator_ColumnPropNameInRow="sysdatebeg" msprop:Generator_ColumnPropNameInTable="sysdatebegColumn" msprop:Generator_UserColumnName="sysdatebeg" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="sysdateend" msprop:Generator_ColumnVarNameInTable="columnsysdateend" msprop:Generator_ColumnPropNameInRow="sysdateend" msprop:Generator_ColumnPropNameInTable="sysdateendColumn" msprop:Generator_UserColumnName="sysdateend" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="jobcode" msprop:Generator_ColumnVarNameInTable="columnjobcode" msprop:Generator_ColumnPropNameInRow="jobcode" msprop:Generator_ColumnPropNameInTable="jobcodeColumn" msprop:Generator_UserColumnName="jobcode" type="xs:decimal" minOccurs="0" />
+              <xs:element name="inhour" msprop:Generator_ColumnVarNameInTable="columninhour" msprop:Generator_ColumnPropNameInRow="inhour" msprop:Generator_ColumnPropNameInTable="inhourColumn" msprop:Generator_UserColumnName="inhour" type="xs:decimal" minOccurs="0" />
+              <xs:element name="inminute" msprop:Generator_ColumnVarNameInTable="columninminute" msprop:Generator_ColumnPropNameInRow="inminute" msprop:Generator_ColumnPropNameInTable="inminuteColumn" msprop:Generator_UserColumnName="inminute" type="xs:decimal" minOccurs="0" />
+              <xs:element name="outhour" msprop:Generator_ColumnVarNameInTable="columnouthour" msprop:Generator_ColumnPropNameInRow="outhour" msprop:Generator_ColumnPropNameInTable="outhourColumn" msprop:Generator_UserColumnName="outhour" type="xs:decimal" minOccurs="0" />
+              <xs:element name="outminute" msprop:Generator_ColumnVarNameInTable="columnoutminute" msprop:Generator_ColumnPropNameInRow="outminute" msprop:Generator_ColumnPropNameInTable="outminuteColumn" msprop:Generator_UserColumnName="outminute" type="xs:decimal" minOccurs="0" />
+              <xs:element name="hours" msprop:Generator_ColumnVarNameInTable="columnhours" msprop:Generator_ColumnPropNameInRow="hours" msprop:Generator_ColumnPropNameInTable="hoursColumn" msprop:Generator_UserColumnName="hours" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
