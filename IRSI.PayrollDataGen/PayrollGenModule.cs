@@ -17,6 +17,7 @@ namespace IRSI.PayrollDataGen
       LoadQuartz(builder);
       LoadServices(builder);
     }
+
     private static void LoadQuartz(ContainerBuilder builder)
     {
       builder.Register(c => new StdSchedulerFactory().GetScheduler()).As<IScheduler>().InstancePerLifetimeScope();
@@ -29,6 +30,7 @@ namespace IRSI.PayrollDataGen
 
       builder.RegisterType<PayrollReader>().As<IPayrollReader>().InstancePerLifetimeScope();
       builder.RegisterType<PayrollConverter>().As<IPayrollConverter>().InstancePerLifetimeScope();
+      builder.RegisterType<PayrollXmlWriter>().As<IPayrollWriter>().InstancePerLifetimeScope();
     }
   }
 }

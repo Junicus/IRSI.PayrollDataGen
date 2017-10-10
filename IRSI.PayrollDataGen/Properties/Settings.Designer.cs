@@ -34,5 +34,29 @@ namespace IRSI.PayrollDataGen.Properties {
                 this["TipCalculationStrategy"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("101")]
+        public int StoreId {
+            get {
+                return ((int)(this["StoreId"]));
+            }
+            set {
+                this["StoreId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Chili\'s Condado")]
+        public string StoreName {
+            get {
+                return ((string)(this["StoreName"]));
+            }
+            set {
+                this["StoreName"] = value;
+            }
+        }
     }
 }

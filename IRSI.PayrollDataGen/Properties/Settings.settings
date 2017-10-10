@@ -5,5 +5,11 @@
     <Setting Name="TipCalculationStrategy" Type="IRSI.PayrollDataGen.Payroll.Model.TipsCalculation" Scope="User">
       <Value Profile="(Default)">Auto</Value>
     </Setting>
+    <Setting Name="StoreId" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">101</Value>
+    </Setting>
+    <Setting Name="StoreName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Chili's Condado</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

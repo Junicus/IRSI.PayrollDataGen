@@ -4,13 +4,22 @@ using System.Linq;
 using System.Text;
 using IRSI.PayrollDataGen.Payroll.Model;
 using IRSI.PayrollDataGen.Properties;
+using NLog;
 
 namespace IRSI.PayrollDataGen.Payroll
 {
   public class PayrollConverter : IPayrollConverter
   {
+    private ILogger _logger;
+
+    public PayrollConverter()
+    {
+      _logger = LogManager.GetCurrentClassLogger();
+    }
+
     public List<Employee> ConvertPayroll(AlohaData alohaData)
     {
+      _logger.Info($"Convert Payroll called");
       var employeeDictionary = new Dictionary<string, Employee>();
       foreach (var employee in alohaData.emp.AsEnumerable())
       {
@@ -39,6 +48,7 @@ namespace IRSI.PayrollDataGen.Payroll
           };
         } catch (Exception e)
         {
+          _logger.Error(e, $"Error loading shift adjtime: {e.Message}");
           Console.WriteLine(e.Message);
         }
         return null;
@@ -64,19 +74,30 @@ namespace IRSI.PayrollDataGen.Payroll
               };
             } catch (Exception e)
             {
+              _logger.Error(e, $"Error loading tips from adjtime: {e.Message}");
               Console.WriteLine(e.Message);
             }
             return null;
           });
 
-      var breaks = alohaData.gndbreak.AsEnumerable().Select(t => new Transaction {
-        Type = TransactionType.ClockInOut,
-        PeriodType = PeriodType.Break,
-        EmpID = t.employee,
-        SSN = t.ssn,
-        JobCode = t.jobcode,
-        ClockIn = t.sysdatebeg.AddHours(t.inhour).AddMinutes(t.inminute),
-        ClockOut = t.sysdateend.AddHours(t.inhour).AddMinutes(t.outminute)
+      var breaks = alohaData.gndbreak.AsEnumerable().Select(t => {
+        try
+        {
+          return new Transaction {
+            Type = TransactionType.ClockInOut,
+            PeriodType = PeriodType.Break,
+            EmpID = t.employee,
+            SSN = t.ssn,
+            JobCode = t.jobcode,
+            ClockIn = t.sysdatebeg.AddHours(t.inhour).AddMinutes(t.inminute),
+            ClockOut = t.sysdateend.AddHours(t.inhour).AddMinutes(t.outminute)
+          };
+        } catch (Exception e)
+        {
+          _logger.Error(e, $"Error loading breaks from gndbreak: {e.Message}");
+          Console.WriteLine(e.Message);
+        }
+        return null;
       });
 
       foreach (var t in adjTimeShift)
@@ -87,6 +108,7 @@ namespace IRSI.PayrollDataGen.Payroll
             employeeDictionary[t.SSN].Trasactions.Add(t);
           } else
           {
+            _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
             Console.WriteLine($"Employee {t.EmpID} with SSN {t.SSN} not found");
           }
       }
