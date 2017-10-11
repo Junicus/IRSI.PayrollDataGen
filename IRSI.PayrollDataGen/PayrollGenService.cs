@@ -11,6 +11,7 @@ namespace IRSI.PayrollDataGen
   public class PayrollGenService : IAmAHostedProcess
   {
     const int IntervalInMinutes = 1;
+
     public IScheduler Scheduler { get; set; }
     public IJobListener AutofacJobListener { get; set; }
     public ServiceHost Host { get; set; }
@@ -31,6 +32,7 @@ namespace IRSI.PayrollDataGen
       Scheduler.ListenerManager.AddJobListener(AutofacJobListener);
       Scheduler.Start();
 
+      //var container = SetupPayrollGenRESTServiceContainer();
       Host = new ServiceHost(typeof(PayrollGenRESTService));
       Host.Open();
     }

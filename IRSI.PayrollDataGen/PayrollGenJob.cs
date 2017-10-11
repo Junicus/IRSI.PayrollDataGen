@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using IRSI.PayrollDataGen.Payroll;
 using IRSI.PayrollDataGen.Properties;
+using NLog;
 using Quartz;
 
 namespace IRSI.PayrollDataGen
@@ -14,6 +15,12 @@ namespace IRSI.PayrollDataGen
     public IPayrollReader PayrollReader { get; set; }
     public IPayrollConverter PayrollConverter { get; set; }
     public IPayrollWriter PayrollWriter { get; set; }
+    private readonly ILogger _logger;
+
+    public PayrollGenJob()
+    {
+      _logger = LogManager.GetCurrentClassLogger();
+    }
 
     public void Execute(IJobExecutionContext context)
     {
@@ -25,21 +32,36 @@ namespace IRSI.PayrollDataGen
 
       foreach (var datedFolder in datedFolders)
       {
-        var payrollData = PayrollReader.ReadPayroll(datedFolder);
-        if (payrollData != null)
+        _logger.Info($"Checking: {datedFolder}");
+        var markerFilePath = Path.Combine(datedFolder, "IRSIPAYGEN");
+        if (!File.Exists(markerFilePath))
         {
-          var payrollResult = PayrollConverter.ConvertPayroll(payrollData);
+          _logger.Info($"Marker file for {datedFolder} not found, generating payroll");
+          _logger.Debug($"Begin reading aloha data");
+          var payrollData = PayrollReader.ReadPayroll(datedFolder);
+          _logger.Debug($"Finished reading aloha data");
+          if (payrollData != null)
+          {
+            _logger.Debug($"Begin converting payroll");
+            var payrollResult = PayrollConverter.ConvertPayroll(payrollData);
+            _logger.Debug($"Finish converting payroll");
 
-          if (!Directory.Exists(ftpOutputFolder)) Directory.CreateDirectory(ftpOutputFolder);
-          if (!Directory.Exists(portalOutputFolder)) Directory.CreateDirectory(portalOutputFolder);
+            _logger.Info($"Checking output folders and creating if not found");
+            if (!Directory.Exists(ftpOutputFolder)) Directory.CreateDirectory(ftpOutputFolder);
+            if (!Directory.Exists(portalOutputFolder)) Directory.CreateDirectory(portalOutputFolder);
 
-          PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, ftpOutputFolder));
-          PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, portalOutputFolder));
-
+            _logger.Debug($"Begin writing files");
+            _logger.Debug($"Writing {GetOutputFilename(datedFolder, ftpOutputFolder)}");
+            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, ftpOutputFolder));
+            _logger.Debug($"Writing {GetOutputFilename(datedFolder, portalOutputFolder)}");
+            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, portalOutputFolder));
+            _logger.Debug($"Finished writing files");
+          } 
         } else
         {
-          Console.WriteLine("Error Reading Data");
+          _logger.Info($"Marker file found, skipping");
         }
+        using (var filestream = File.Create(markerFilePath)) { };
       }
     }
 

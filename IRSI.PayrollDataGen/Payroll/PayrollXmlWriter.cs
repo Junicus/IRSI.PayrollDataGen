@@ -6,13 +6,24 @@ using System.Text;
 using System.Xml.Serialization;
 using IRSI.PayrollDataGen.Payroll.Model;
 using IRSI.PayrollDataGen.Properties;
+using NLog;
 
 namespace IRSI.PayrollDataGen.Payroll
 {
   public class PayrollXmlWriter : IPayrollWriter
   {
+    private readonly ILogger _logger;
+
+    public PayrollXmlWriter()
+    {
+      _logger = LogManager.GetCurrentClassLogger();
+    }
+
     public void WriteFile(List<Employee> employees, string filename)
     {
+      _logger.Info($"Write Payroll called");
+
+      _logger.Debug($"Serializing employees with transactions");
       var employeesWithTransactions = employees.Where(t => t.Trasactions.Any());
       var employeesCollection = new Employees();
       employeesCollection.AddRange(employeesWithTransactions);
@@ -32,6 +43,7 @@ namespace IRSI.PayrollDataGen.Payroll
           Console.WriteLine(ex.Message);
         }
       }
+      _logger.Info($"Write Payroll finished");
     }
   }
 }

@@ -21,6 +21,7 @@ namespace IRSI.PayrollDataGen.Payroll
     {
       _logger.Info($"Convert Payroll called");
       var employeeDictionary = new Dictionary<string, Employee>();
+      _logger.Debug($"Begin Loading Employees");
       foreach (var employee in alohaData.emp.AsEnumerable())
       {
         if (!employeeDictionary.Keys.Contains(employee.ssn))
@@ -32,7 +33,9 @@ namespace IRSI.PayrollDataGen.Payroll
             Trasactions = new Transactions()
           });
       }
+      _logger.Debug($"End Loading Employees, {employeeDictionary.Count} employees loaded");
 
+      _logger.Debug($"Begin loading shift");
       var adjTimeShift = alohaData.adjtime.AsEnumerable().Select(t => {
         try
         {
@@ -49,12 +52,13 @@ namespace IRSI.PayrollDataGen.Payroll
         } catch (Exception e)
         {
           _logger.Error(e, $"Error loading shift adjtime: {e.Message}");
-          Console.WriteLine(e.Message);
         }
         return null;
       });
+      _logger.Debug($"End loading shift, {adjTimeShift.Count()} loaded");
 
       var tipCalculationStrategy = Settings.Default.TipCalculationStrategy;
+      _logger.Debug($"Begin loading tips, using {tipCalculationStrategy}");
       var adjTimeTips = alohaData.adjtime.AsEnumerable().Where(t => t.dectips > 0m || t.cctips > 0m)
           .Select(t => {
             try
@@ -75,11 +79,12 @@ namespace IRSI.PayrollDataGen.Payroll
             } catch (Exception e)
             {
               _logger.Error(e, $"Error loading tips from adjtime: {e.Message}");
-              Console.WriteLine(e.Message);
             }
             return null;
           });
+      _logger.Debug($"End loading tips, {adjTimeTips.Count()} loaded");
 
+      _logger.Debug($"Begin loading breaks");
       var breaks = alohaData.gndbreak.AsEnumerable().Select(t => {
         try
         {
@@ -95,11 +100,12 @@ namespace IRSI.PayrollDataGen.Payroll
         } catch (Exception e)
         {
           _logger.Error(e, $"Error loading breaks from gndbreak: {e.Message}");
-          Console.WriteLine(e.Message);
         }
         return null;
       });
+      _logger.Debug($"End loading breaks, {breaks.Count()} loaded");
 
+      _logger.Debug($"Beging Assigning transactions to employees");
       foreach (var t in adjTimeShift)
       {
         if (t != null)
@@ -109,7 +115,6 @@ namespace IRSI.PayrollDataGen.Payroll
           } else
           {
             _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
-            Console.WriteLine($"Employee {t.EmpID} with SSN {t.SSN} not found");
           }
       }
 
@@ -121,7 +126,7 @@ namespace IRSI.PayrollDataGen.Payroll
             employeeDictionary[t.SSN].Trasactions.Add(t);
           } else
           {
-            Console.WriteLine($"Employee {t.EmpID} with SSN {t.SSN} not found");
+            _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
           }
       }
 
@@ -133,10 +138,12 @@ namespace IRSI.PayrollDataGen.Payroll
             employeeDictionary[t.SSN].Trasactions.Add(t);
           } else
           {
-            Console.WriteLine($"Employee {t.EmpID} with SSN {t.SSN} not found");
+            _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
           }
       }
+      _logger.Debug($"End Assigning transactions to employees");
 
+      _logger.Debug($"Beging adjusting paycodes for multiple shifts");
       foreach (var employee in employeeDictionary.Values.Where(t => t.Trasactions.Any()))
       {
         var minutesToAdd = 0;
@@ -146,7 +153,9 @@ namespace IRSI.PayrollDataGen.Payroll
           minutesToAdd += 5;
         }
       }
+      _logger.Debug($"End adjusting paycodes for multiple shifts");
 
+      _logger.Info($"Convert Payroll finished");
       return employeeDictionary.Values.ToList<Employee>();
     }
   }
