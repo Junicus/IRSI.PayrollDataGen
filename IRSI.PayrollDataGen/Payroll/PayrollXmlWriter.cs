@@ -22,7 +22,15 @@ namespace IRSI.PayrollDataGen.Payroll
     public void WriteFile(List<Employee> employees, string filename)
     {
       _logger.Info($"Write Payroll called");
+      using (var streamWriter = new StreamWriter(filename))
+      {
+        WriteStream(employees, streamWriter);
+      }
+      _logger.Info($"Write Payroll finished");
+    }
 
+    public void WriteStream(List<Employee> employees, StreamWriter streamWriter)
+    {
       _logger.Debug($"Serializing employees with transactions");
       var employeesWithTransactions = employees.Where(t => t.Trasactions.Any());
       var employeesCollection = new Employees();
@@ -33,17 +41,14 @@ namespace IRSI.PayrollDataGen.Payroll
         Employees = employeesCollection
       };
       var serializer = new XmlSerializer(typeof(Store));
-      using (var stream = new StreamWriter(filename))
+      try
       {
-        try
-        {
-          serializer.Serialize(stream, store);
-        } catch (Exception ex)
-        {
-          Console.WriteLine(ex.Message);
-        }
+        serializer.Serialize(streamWriter, store);
+        streamWriter.Flush();
+      } catch (Exception e)
+      {
+        _logger.Error(e, "Error serializing payroll");
       }
-      _logger.Info($"Write Payroll finished");
     }
   }
 }

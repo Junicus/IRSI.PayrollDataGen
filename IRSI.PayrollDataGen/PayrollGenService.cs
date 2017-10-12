@@ -4,6 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using Atlas;
+using Autofac;
+using Autofac.Integration.Wcf;
+using IRSI.PayrollDataGen.Payroll;
 using Quartz;
 
 namespace IRSI.PayrollDataGen
@@ -32,8 +35,9 @@ namespace IRSI.PayrollDataGen
       Scheduler.ListenerManager.AddJobListener(AutofacJobListener);
       Scheduler.Start();
 
-      //var container = SetupPayrollGenRESTServiceContainer();
+      var container = SetupPayrollGenRESTServiceContainer();
       Host = new ServiceHost(typeof(PayrollGenRESTService));
+      Host.AddDependencyInjectionBehavior<IPayrollGenRESTService>(container);
       Host.Open();
     }
 
@@ -51,6 +55,19 @@ namespace IRSI.PayrollDataGen
     public void Pause()
     {
       Scheduler.PauseAll();
+    }
+
+    private IContainer SetupPayrollGenRESTServiceContainer()
+    {
+      var builder = new ContainerBuilder();
+
+      builder.RegisterType<PayrollReader>().As<IPayrollReader>();
+      builder.RegisterType<PayrollConverter>().As<IPayrollConverter>();
+      builder.RegisterType<PayrollXmlWriter>().As<IPayrollWriter>();
+
+      builder.RegisterType<PayrollGenRESTService>().As<IPayrollGenRESTService>();
+
+      return builder.Build();
     }
   }
 }
