@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.ServiceModel.Web;
 using System.Text;
 using IRSI.PayrollDataGen.Payroll;
 using IRSI.PayrollDataGen.Payroll.Model;
@@ -38,6 +41,14 @@ namespace IRSI.PayrollDataGen
       foreach (var datedFolder in datedFolders)
       {
         alohaDatasets.Add(_payrollReader.ReadPayroll(datedFolder));
+      }
+
+      if (alohaDatasets.Any(t => t == null))
+      {
+        OutgoingWebResponseContext badresult = WebOperationContext.Current.OutgoingResponse;
+        badresult.StatusCode = HttpStatusCode.BadRequest;
+        badresult.StatusDescription = "Invalid date range, one or more dated folders not found in range";
+        return null;
       }
 
       var employeeLists = new List<List<Employee>>();
