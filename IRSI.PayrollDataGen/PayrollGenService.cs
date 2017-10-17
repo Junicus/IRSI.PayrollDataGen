@@ -13,7 +13,7 @@ namespace IRSI.PayrollDataGen
 {
   public class PayrollGenService : IAmAHostedProcess
   {
-    const int IntervalInMinutes = 1;
+    const int IntervalInMinutes = 60;
 
     public IScheduler Scheduler { get; set; }
     public IJobListener AutofacJobListener { get; set; }

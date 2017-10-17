@@ -103,6 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacJobListener.cs" />
+    <Compile Include="Ftp\FtpSendPayroll.cs" />
+    <Compile Include="Ftp\IFtpSendPayroll.cs" />
     <Compile Include="IPayrollGenRESTService.cs" />
     <Compile Include="PayrollGenJob.cs" />
     <Compile Include="PayrollGenModule.cs" />
