@@ -21,17 +21,28 @@ namespace IRSI.PayrollDataGen
 
     public void Start()
     {
-      var job = JobBuilder.Create<PayrollGenJob>()
-      .WithIdentity("Job1")
-      .Build();
+      var genjob = JobBuilder.Create<PayrollGenJob>()
+        .WithIdentity("Job1")
+        .Build();
 
-      var trigger = TriggerBuilder.Create()
-      .WithIdentity("Tigger1")
-      .StartNow()
-      .WithCalendarIntervalSchedule(x => x.WithIntervalInMinutes(IntervalInMinutes))
-      .Build();
+      var sendjob = JobBuilder.Create<PayrollSendJob>()
+        .WithIdentity("Job2")
+        .Build();
 
-      Scheduler.ScheduleJob(job, trigger);
+      var gentrigger = TriggerBuilder.Create()
+        .WithIdentity("Trigger1")
+        .StartNow()
+        .WithCalendarIntervalSchedule(x => x.WithIntervalInMinutes(IntervalInMinutes))
+        .Build();
+
+      var sendtrigger = TriggerBuilder.Create()
+        .WithIdentity("Trigger2")
+        .StartNow()
+        .WithCalendarIntervalSchedule(x => x.WithIntervalInMinutes(1))
+        .Build();
+
+      Scheduler.ScheduleJob(genjob, gentrigger);
+      Scheduler.ScheduleJob(sendjob, sendtrigger);
       Scheduler.ListenerManager.AddJobListener(AutofacJobListener);
       Scheduler.Start();
 

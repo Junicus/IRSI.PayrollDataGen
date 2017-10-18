@@ -15,12 +15,7 @@ namespace IRSI.PayrollDataGen
     public IPayrollReader PayrollReader { get; set; }
     public IPayrollConverter PayrollConverter { get; set; }
     public IPayrollWriter PayrollWriter { get; set; }
-    private readonly ILogger _logger;
-
-    public PayrollGenJob()
-    {
-      _logger = LogManager.GetCurrentClassLogger();
-    }
+    private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
     public void Execute(IJobExecutionContext context)
     {

@@ -7,6 +7,6 @@ namespace IRSI.PayrollDataGen.Ftp
 {
   public interface IFtpSendPayroll
   {
-    void SendFiles(string folderName, string url, string username, string password);
+    void SendFile(Uri uri, string username, string password, byte[] bytes);
   }
 }
