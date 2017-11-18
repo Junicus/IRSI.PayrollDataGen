@@ -37,7 +37,7 @@ namespace IRSI.PayrollDataGen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("101")]
+        [global::System.Configuration.DefaultSettingValueAttribute("109")]
         public int StoreId {
             get {
                 return ((int)(this["StoreId"]));
@@ -49,7 +49,7 @@ namespace IRSI.PayrollDataGen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Chili\'s Condado")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Chili\'s Carolina")]
         public string StoreName {
             get {
                 return ((string)(this["StoreName"]));

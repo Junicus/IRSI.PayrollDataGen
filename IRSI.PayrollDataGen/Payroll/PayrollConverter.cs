@@ -20,17 +20,17 @@ namespace IRSI.PayrollDataGen.Payroll
     public List<Employee> ConvertPayroll(AlohaData alohaData)
     {
       _logger.Info($"Convert Payroll called");
-      var employeeDictionary = new Dictionary<string, Employee>();
+      var employeeDictionary = new Dictionary<int, Employee>();
       _logger.Debug($"Begin Loading Employees");
       foreach (var employee in alohaData.emp.AsEnumerable())
       {
-        if (!employeeDictionary.Keys.Contains(employee.ssn))
-          employeeDictionary.Add(employee.ssn, new Employee {
+        if (!employeeDictionary.Keys.Contains(employee.id))
+          employeeDictionary.Add(employee.id, new Employee {
             ID = employee.id,
-            SocialSecurity = employee.ssn.TrimStart('0'),
+            SocialSecurity = employee.sec_num.TrimStart('0'),
             FirstName = employee.firstname.Trim(),
             LastName = employee.lastname.Trim(),
-            Trasactions = new Transactions()
+            Transactions = new Transactions()
           });
       }
       _logger.Debug($"End Loading Employees, {employeeDictionary.Count} employees loaded");
@@ -46,8 +46,9 @@ namespace IRSI.PayrollDataGen.Payroll
             SSN = t.ssn,
             JobCode = t.jobcode,
             Hours = (t.IshoursNull() ? 0 : t.hours),
+            PayCode = string.Empty,
             ClockIn = t.sysdatein.AddHours(t.inhour).AddMinutes(t.inminute),
-            ClockOut = t.sysdateout.AddHours(t.inhour).AddMinutes(t.outminute)
+            ClockOut = t.sysdateout.AddHours(t.outhour).AddMinutes(t.outminute)
           };
         } catch (Exception e)
         {
@@ -94,8 +95,10 @@ namespace IRSI.PayrollDataGen.Payroll
             EmpID = t.employee,
             SSN = t.ssn,
             JobCode = t.jobcode,
+            Hours = (t.IshoursNull() ? 0 : t.hours),
+            PayCode = string.Empty,
             ClockIn = t.sysdatebeg.AddHours(t.inhour).AddMinutes(t.inminute),
-            ClockOut = t.sysdateend.AddHours(t.inhour).AddMinutes(t.outminute)
+            ClockOut = t.sysdateend.AddHours(t.outhour).AddMinutes(t.outminute)
           };
         } catch (Exception e)
         {
@@ -109,9 +112,10 @@ namespace IRSI.PayrollDataGen.Payroll
       foreach (var t in adjTimeShift)
       {
         if (t != null)
-          if (employeeDictionary.Keys.Contains(t.SSN))
+          if (employeeDictionary.Keys.Contains(t.EmpID))
           {
-            employeeDictionary[t.SSN].Trasactions.Add(t);
+            t.SSN = employeeDictionary[t.EmpID].SocialSecurity;
+            employeeDictionary[t.EmpID].Transactions.Add(t);
           } else
           {
             _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
@@ -121,9 +125,10 @@ namespace IRSI.PayrollDataGen.Payroll
       foreach (var t in adjTimeTips)
       {
         if (t != null)
-          if (employeeDictionary.Keys.Contains(t.SSN))
+          if (employeeDictionary.Keys.Contains(t.EmpID))
           {
-            employeeDictionary[t.SSN].Trasactions.Add(t);
+            t.SSN = employeeDictionary[t.EmpID].SocialSecurity;
+            employeeDictionary[t.EmpID].Transactions.Add(t);
           } else
           {
             _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
@@ -133,9 +138,10 @@ namespace IRSI.PayrollDataGen.Payroll
       foreach (var t in breaks)
       {
         if (t != null)
-          if (employeeDictionary.Keys.Contains(t.SSN))
+          if (employeeDictionary.Keys.Contains(t.EmpID))
           {
-            employeeDictionary[t.SSN].Trasactions.Add(t);
+            t.SSN = employeeDictionary[t.EmpID].SocialSecurity;
+            employeeDictionary[t.EmpID].Transactions.Add(t);
           } else
           {
             _logger.Warn($"Employee {t.EmpID} with SSN {t.SSN} not found");
@@ -144,10 +150,10 @@ namespace IRSI.PayrollDataGen.Payroll
       _logger.Debug($"End Assigning transactions to employees");
 
       _logger.Debug($"Beging adjusting paycodes for multiple shifts");
-      foreach (var employee in employeeDictionary.Values.Where(t => t.Trasactions.Any()))
+      foreach (var employee in employeeDictionary.Values.Where(t => t.Transactions.Any()))
       {
         var minutesToAdd = 0;
-        foreach (var t in employee.Trasactions.Where(t => t.Type == TransactionType.PayCode))
+        foreach (var t in employee.Transactions.Where(t => t.Type == TransactionType.PayCode))
         {
           t.ClockIn = t.ClockIn.AddMinutes(minutesToAdd);
           minutesToAdd += 5;

@@ -349,13 +349,15 @@ namespace IRSI.PayrollDataGen.Payroll {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class empDataTable : global::System.Data.TypedTableBase<empRow> {
             
+            private global::System.Data.DataColumn columnfirstname;
+            
+            private global::System.Data.DataColumn columnlastname;
+            
             private global::System.Data.DataColumn columnid;
             
             private global::System.Data.DataColumn columnssn;
             
-            private global::System.Data.DataColumn columnfirstname;
-            
-            private global::System.Data.DataColumn columnlastname;
+            private global::System.Data.DataColumn columnsec_num;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
@@ -392,6 +394,22 @@ namespace IRSI.PayrollDataGen.Payroll {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn firstnameColumn {
+                get {
+                    return this.columnfirstname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn lastnameColumn {
+                get {
+                    return this.columnlastname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public global::System.Data.DataColumn idColumn {
                 get {
                     return this.columnid;
@@ -408,17 +426,9 @@ namespace IRSI.PayrollDataGen.Payroll {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn firstnameColumn {
+            public global::System.Data.DataColumn sec_numColumn {
                 get {
-                    return this.columnfirstname;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn lastnameColumn {
-                get {
-                    return this.columnlastname;
+                    return this.columnsec_num;
                 }
             }
             
@@ -459,13 +469,14 @@ namespace IRSI.PayrollDataGen.Payroll {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public empRow AddempRow(int id, string ssn, string firstname, string lastname) {
+            public empRow AddempRow(string firstname, string lastname, int id, string ssn, string sec_num) {
                 empRow rowempRow = ((empRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        firstname,
+                        lastname,
                         id,
                         ssn,
-                        firstname,
-                        lastname};
+                        sec_num};
                 rowempRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowempRow);
                 return rowempRow;
@@ -488,23 +499,26 @@ namespace IRSI.PayrollDataGen.Payroll {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             internal void InitVars() {
-                this.columnid = base.Columns["id"];
-                this.columnssn = base.Columns["ssn"];
                 this.columnfirstname = base.Columns["firstname"];
                 this.columnlastname = base.Columns["lastname"];
+                this.columnid = base.Columns["id"];
+                this.columnssn = base.Columns["ssn"];
+                this.columnsec_num = base.Columns["sec_num"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             private void InitClass() {
-                this.columnid = new global::System.Data.DataColumn("id", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnid);
-                this.columnssn = new global::System.Data.DataColumn("ssn", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnssn);
                 this.columnfirstname = new global::System.Data.DataColumn("firstname", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnfirstname);
                 this.columnlastname = new global::System.Data.DataColumn("lastname", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnlastname);
+                this.columnid = new global::System.Data.DataColumn("id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnid);
+                this.columnssn = new global::System.Data.DataColumn("ssn", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnssn);
+                this.columnsec_num = new global::System.Data.DataColumn("sec_num", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsec_num);
                 this.columnfirstname.MaxLength = 30;
                 this.columnlastname.MaxLength = 30;
             }
@@ -1451,38 +1465,6 @@ namespace IRSI.PayrollDataGen.Payroll {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public int id {
-                get {
-                    try {
-                        return ((int)(this[this.tableemp.idColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'id\' in table \'emp\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableemp.idColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string ssn {
-                get {
-                    try {
-                        return ((string)(this[this.tableemp.ssnColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ssn\' in table \'emp\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableemp.ssnColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public string firstname {
                 get {
                     try {
@@ -1515,26 +1497,50 @@ namespace IRSI.PayrollDataGen.Payroll {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsidNull() {
-                return this.IsNull(this.tableemp.idColumn);
+            public int id {
+                get {
+                    try {
+                        return ((int)(this[this.tableemp.idColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'id\' in table \'emp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableemp.idColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetidNull() {
-                this[this.tableemp.idColumn] = global::System.Convert.DBNull;
+            public string ssn {
+                get {
+                    try {
+                        return ((string)(this[this.tableemp.ssnColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ssn\' in table \'emp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableemp.ssnColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsssnNull() {
-                return this.IsNull(this.tableemp.ssnColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetssnNull() {
-                this[this.tableemp.ssnColumn] = global::System.Convert.DBNull;
+            public string sec_num {
+                get {
+                    try {
+                        return ((string)(this[this.tableemp.sec_numColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'sec_num\' in table \'emp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableemp.sec_numColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1559,6 +1565,42 @@ namespace IRSI.PayrollDataGen.Payroll {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetlastnameNull() {
                 this[this.tableemp.lastnameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsidNull() {
+                return this.IsNull(this.tableemp.idColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetidNull() {
+                this[this.tableemp.idColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsssnNull() {
+                return this.IsNull(this.tableemp.ssnColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetssnNull() {
+                this[this.tableemp.ssnColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool Issec_numNull() {
+                return this.IsNull(this.tableemp.sec_numColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void Setsec_numNull() {
+                this[this.tableemp.sec_numColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2491,10 +2533,11 @@ namespace IRSI.PayrollDataGen.Payroll.AlohaDataTableAdapters {
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "emp";
-            tableMapping.ColumnMappings.Add("id", "id");
-            tableMapping.ColumnMappings.Add("ssn", "ssn");
             tableMapping.ColumnMappings.Add("firstname", "firstname");
             tableMapping.ColumnMappings.Add("lastname", "lastname");
+            tableMapping.ColumnMappings.Add("id", "id");
+            tableMapping.ColumnMappings.Add("ssn", "ssn");
+            tableMapping.ColumnMappings.Add("sec_num", "sec_num");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -2511,7 +2554,7 @@ namespace IRSI.PayrollDataGen.Payroll.AlohaDataTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT id, ssn, firstname, lastname FROM emp";
+            this._commandCollection[0].CommandText = "SELECT id, ssn, firstname, lastname, sec_num FROM emp";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         

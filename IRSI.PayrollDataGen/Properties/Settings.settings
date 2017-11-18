@@ -6,10 +6,10 @@
       <Value Profile="(Default)">Auto</Value>
     </Setting>
     <Setting Name="StoreId" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">101</Value>
+      <Value Profile="(Default)">109</Value>
     </Setting>
     <Setting Name="StoreName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Chili's Condado</Value>
+      <Value Profile="(Default)">Chili's Carolina</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -32,7 +32,7 @@ namespace IRSI.PayrollDataGen.Payroll
     public void WriteStream(List<Employee> employees, StreamWriter streamWriter)
     {
       _logger.Debug($"Serializing employees with transactions");
-      var employeesWithTransactions = employees.Where(t => t.Trasactions.Any());
+      var employeesWithTransactions = employees.Where(t => t.Transactions.Any());
       var employeesCollection = new Employees();
       employeesCollection.AddRange(employeesWithTransactions);
       var store = new Store {

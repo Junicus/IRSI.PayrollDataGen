@@ -28,7 +28,7 @@ namespace IRSI.PayrollDataGen.Payroll.Model
     public string LastName { get; set; }
 
     [XmlElement()]
-    public Transactions Trasactions {
+    public Transactions Transactions {
       get { return _transactions; }
       set { _transactions = value; }
     }

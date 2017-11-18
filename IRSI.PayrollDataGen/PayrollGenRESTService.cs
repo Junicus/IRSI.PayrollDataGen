@@ -86,7 +86,7 @@ namespace IRSI.PayrollDataGen
         {
           if (result.Any(t => t.ID == employee.ID))
           {
-            result.SingleOrDefault(t => t.ID == employee.ID).Trasactions.AddRange(employee.Trasactions);
+            result.SingleOrDefault(t => t.ID == employee.ID).Transactions.AddRange(employee.Transactions);
           } else
           {
             result.Add(employee);

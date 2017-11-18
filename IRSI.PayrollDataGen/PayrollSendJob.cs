@@ -23,17 +23,22 @@ namespace IRSI.PayrollDataGen
       var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "ftpurl.json"));
       var o = JObject.Parse(json);
       var urls = o["ftpSettings"].Select(u => (string)u).ToList();
-      foreach(var url in urls )
+      var ftpOutputDirectory = Path.Combine(Directory.GetCurrentDirectory(), "ftpOutput");
+
+      foreach (var url in urls)
       {
         ftpSettings.Add(ParseFtpSettingsLine(url));
       }
 
       foreach (var ftpSetting in ftpSettings)
       {
-        foreach (var file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "ftpOutput")))
+        if (!Directory.Exists(ftpOutputDirectory))
+        {
+          Directory.CreateDirectory(ftpOutputDirectory);
+        }
+        foreach (var file in Directory.GetFiles(ftpOutputDirectory))
         {
           var uri = new Uri($"ftp://{ftpSetting.Url}/{ftpSetting.Path}/{Path.GetFileName(file)}");
-          Console.WriteLine(uri);
           //FtpSendPayroll.SendFile(uri, ftpSetting.Username, ftpSetting.Password, File.ReadAllBytes(file));
         }
       }

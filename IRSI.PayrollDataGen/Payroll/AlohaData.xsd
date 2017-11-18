@@ -9,20 +9,21 @@
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="empTableAdapter" GeneratorDataComponentClassName="empTableAdapter" Name="emp" UserDataComponentName="empTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="VFPOLEDB.C:\POS\ALOHA" DbObjectName="emp" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="VFPOLEDB.C:\POS\ALOHA" DbObjectName="emp" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT id, ssn, firstname, lastname FROM emp</CommandText>
+                    <CommandText>SELECT id, ssn, firstname, lastname, sec_num FROM emp</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
             </MainSource>
             <Mappings>
-              <Mapping SourceColumn="id" DataSetColumn="id" />
-              <Mapping SourceColumn="ssn" DataSetColumn="ssn" />
               <Mapping SourceColumn="firstname" DataSetColumn="firstname" />
               <Mapping SourceColumn="lastname" DataSetColumn="lastname" />
+              <Mapping SourceColumn="id" DataSetColumn="id" />
+              <Mapping SourceColumn="ssn" DataSetColumn="ssn" />
+              <Mapping SourceColumn="sec_num" DataSetColumn="sec_num" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -91,11 +92,9 @@ WHERE        (invalid = 'N')</CommandText>
   <xs:element name="AlohaData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="AlohaData" msprop:Generator_UserDSName="AlohaData">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="emp" msprop:Generator_TableClassName="empDataTable" msprop:Generator_TableVarName="tableemp" msprop:Generator_RowChangedName="empRowChanged" msprop:Generator_TablePropName="emp" msprop:Generator_RowDeletingName="empRowDeleting" msprop:Generator_RowChangingName="empRowChanging" msprop:Generator_RowEvHandlerName="empRowChangeEventHandler" msprop:Generator_RowDeletedName="empRowDeleted" msprop:Generator_RowClassName="empRow" msprop:Generator_UserTableName="emp" msprop:Generator_RowEvArgName="empRowChangeEvent">
+        <xs:element name="emp" msprop:Generator_TableClassName="empDataTable" msprop:Generator_TableVarName="tableemp" msprop:Generator_TablePropName="emp" msprop:Generator_RowDeletingName="empRowDeleting" msprop:Generator_RowChangingName="empRowChanging" msprop:Generator_RowEvHandlerName="empRowChangeEventHandler" msprop:Generator_RowDeletedName="empRowDeleted" msprop:Generator_UserTableName="emp" msprop:Generator_RowChangedName="empRowChanged" msprop:Generator_RowEvArgName="empRowChangeEvent" msprop:Generator_RowClassName="empRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
-              <xs:element name="ssn" msprop:Generator_ColumnVarNameInTable="columnssn" msprop:Generator_ColumnPropNameInRow="ssn" msprop:Generator_ColumnPropNameInTable="ssnColumn" msprop:Generator_UserColumnName="ssn" type="xs:string" minOccurs="0" />
               <xs:element name="firstname" msprop:Generator_ColumnVarNameInTable="columnfirstname" msprop:Generator_ColumnPropNameInRow="firstname" msprop:Generator_ColumnPropNameInTable="firstnameColumn" msprop:Generator_UserColumnName="firstname" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -110,10 +109,13 @@ WHERE        (invalid = 'N')</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
+              <xs:element name="ssn" msprop:Generator_ColumnVarNameInTable="columnssn" msprop:Generator_ColumnPropNameInRow="ssn" msprop:Generator_ColumnPropNameInTable="ssnColumn" msprop:Generator_UserColumnName="ssn" type="xs:string" minOccurs="0" />
+              <xs:element name="sec_num" msprop:Generator_ColumnVarNameInTable="columnsec_num" msprop:Generator_ColumnPropNameInRow="sec_num" msprop:Generator_ColumnPropNameInTable="sec_numColumn" msprop:Generator_UserColumnName="sec_num" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="gndbreak" msprop:Generator_TableClassName="gndbreakDataTable" msprop:Generator_TableVarName="tablegndbreak" msprop:Generator_RowChangedName="gndbreakRowChanged" msprop:Generator_TablePropName="gndbreak" msprop:Generator_RowDeletingName="gndbreakRowDeleting" msprop:Generator_RowChangingName="gndbreakRowChanging" msprop:Generator_RowEvHandlerName="gndbreakRowChangeEventHandler" msprop:Generator_RowDeletedName="gndbreakRowDeleted" msprop:Generator_RowClassName="gndbreakRow" msprop:Generator_UserTableName="gndbreak" msprop:Generator_RowEvArgName="gndbreakRowChangeEvent">
+        <xs:element name="gndbreak" msprop:Generator_TableClassName="gndbreakDataTable" msprop:Generator_TableVarName="tablegndbreak" msprop:Generator_TablePropName="gndbreak" msprop:Generator_RowDeletingName="gndbreakRowDeleting" msprop:Generator_RowChangingName="gndbreakRowChanging" msprop:Generator_RowEvHandlerName="gndbreakRowChangeEventHandler" msprop:Generator_RowDeletedName="gndbreakRowDeleted" msprop:Generator_UserTableName="gndbreak" msprop:Generator_RowChangedName="gndbreakRowChanged" msprop:Generator_RowEvArgName="gndbreakRowChangeEvent" msprop:Generator_RowClassName="gndbreakRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="employee" msprop:Generator_ColumnVarNameInTable="columnemployee" msprop:Generator_ColumnPropNameInRow="employee" msprop:Generator_ColumnPropNameInTable="employeeColumn" msprop:Generator_UserColumnName="employee" type="xs:int" minOccurs="0" />
@@ -130,7 +132,7 @@ WHERE        (invalid = 'N')</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="adjtime" msprop:Generator_TableClassName="adjtimeDataTable" msprop:Generator_TableVarName="tableadjtime" msprop:Generator_TablePropName="adjtime" msprop:Generator_RowDeletingName="adjtimeRowDeleting" msprop:Generator_RowChangingName="adjtimeRowChanging" msprop:Generator_RowEvHandlerName="adjtimeRowChangeEventHandler" msprop:Generator_RowDeletedName="adjtimeRowDeleted" msprop:Generator_UserTableName="adjtime" msprop:Generator_RowChangedName="adjtimeRowChanged" msprop:Generator_RowEvArgName="adjtimeRowChangeEvent" msprop:Generator_RowClassName="adjtimeRow">
+        <xs:element name="adjtime" msprop:Generator_TableClassName="adjtimeDataTable" msprop:Generator_TableVarName="tableadjtime" msprop:Generator_RowChangedName="adjtimeRowChanged" msprop:Generator_TablePropName="adjtime" msprop:Generator_RowDeletingName="adjtimeRowDeleting" msprop:Generator_RowChangingName="adjtimeRowChanging" msprop:Generator_RowEvHandlerName="adjtimeRowChangeEventHandler" msprop:Generator_RowDeletedName="adjtimeRowDeleted" msprop:Generator_RowClassName="adjtimeRow" msprop:Generator_UserTableName="adjtime" msprop:Generator_RowEvArgName="adjtimeRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="employee" msprop:Generator_ColumnVarNameInTable="columnemployee" msprop:Generator_ColumnPropNameInRow="employee" msprop:Generator_ColumnPropNameInTable="employeeColumn" msprop:Generator_UserColumnName="employee" type="xs:int" minOccurs="0" />
