@@ -39,7 +39,7 @@ namespace IRSI.PayrollDataGen
         foreach (var file in Directory.GetFiles(ftpOutputDirectory))
         {
           var uri = new Uri($"ftp://{ftpSetting.Url}/{ftpSetting.Path}/{Path.GetFileName(file)}");
-          //FtpSendPayroll.SendFile(uri, ftpSetting.Username, ftpSetting.Password, File.ReadAllBytes(file));
+          FtpSendPayroll.SendFile(uri, ftpSetting.Username, ftpSetting.Password, File.ReadAllBytes(file), ftpSetting.UsePassive);
         }
       }
 
@@ -57,7 +57,8 @@ namespace IRSI.PayrollDataGen
         Url = parts[0],
         Path = path,
         Username = parts[2],
-        Password = parts[3]
+        Password = parts[3],
+        UsePassive = bool.Parse(parts[4])
       };
 
       return ftpSetting;
@@ -69,6 +70,7 @@ namespace IRSI.PayrollDataGen
       public string Username { get; set; }
       public string Password { get; set; }
       public string Path { get; set; }
+      public bool UsePassive { get; set; }
     }
   }
 }

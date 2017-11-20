@@ -36,7 +36,7 @@ namespace IRSI.PayrollDataGen.Payroll
       _logger.Debug($"End Loading Employees, {employeeDictionary.Count} employees loaded");
 
       _logger.Debug($"Begin loading shift");
-      var adjTimeShift = alohaData.adjtime.AsEnumerable().Select(t => {
+      var adjTimeShift = alohaData.adjtime.AsEnumerable().Where(j => j.jobcode != 11).Select(t => {
         try
         {
           return new Transaction {
@@ -60,7 +60,7 @@ namespace IRSI.PayrollDataGen.Payroll
 
       var tipCalculationStrategy = Settings.Default.TipCalculationStrategy;
       _logger.Debug($"Begin loading tips, using {tipCalculationStrategy}");
-      var adjTimeTips = alohaData.adjtime.AsEnumerable().Where(t => t.dectips > 0m || t.cctips > 0m)
+      var adjTimeTips = alohaData.adjtime.AsEnumerable().Where(j => j.jobcode != 11).Where(t => t.dectips > 0m || t.cctips > 0m)
           .Select(t => {
             try
             {
@@ -86,7 +86,7 @@ namespace IRSI.PayrollDataGen.Payroll
       _logger.Debug($"End loading tips, {adjTimeTips.Count()} loaded");
 
       _logger.Debug($"Begin loading breaks");
-      var breaks = alohaData.gndbreak.AsEnumerable().Select(t => {
+      var breaks = alohaData.gndbreak.AsEnumerable().Where(j => j.jobcode != 11).Select(t => {
         try
         {
           return new Transaction {

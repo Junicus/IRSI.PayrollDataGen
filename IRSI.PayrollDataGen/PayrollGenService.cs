@@ -13,7 +13,8 @@ namespace IRSI.PayrollDataGen
 {
   public class PayrollGenService : IAmAHostedProcess
   {
-    const int IntervalInMinutes = 60;
+    const int IntervalInHours = 2;
+    const int IntervalInDays = 1;
 
     public IScheduler Scheduler { get; set; }
     public IJobListener AutofacJobListener { get; set; }
@@ -29,16 +30,18 @@ namespace IRSI.PayrollDataGen
         .WithIdentity("Job2")
         .Build();
 
-      var gentrigger = TriggerBuilder.Create()
+      var gentrigger = TriggerBuilder.Create().ForJob(genjob)
         .WithIdentity("Trigger1")
-        .StartNow()
-        .WithCalendarIntervalSchedule(x => x.WithIntervalInMinutes(IntervalInMinutes))
+        .StartAt(DateBuilder.DateOf(5, 0, 0))
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(10))
+        .EndAt(DateBuilder.DateOf(6, 0, 0))
         .Build();
 
-      var sendtrigger = TriggerBuilder.Create()
+      var sendtrigger = TriggerBuilder.Create().ForJob(sendjob)
         .WithIdentity("Trigger2")
-        .StartNow()
-        .WithCalendarIntervalSchedule(x => x.WithIntervalInMinutes(1))
+        .StartAt(DateBuilder.DateOf(5, 0, 0))
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(15))
+        .EndAt(DateBuilder.DateOf(6, 0, 0))
         .Build();
 
       Scheduler.ScheduleJob(genjob, gentrigger);
