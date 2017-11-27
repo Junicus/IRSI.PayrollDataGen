@@ -11,5 +11,17 @@
     <Setting Name="StoreName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Chili's Carolina</Value>
     </Setting>
+    <Setting Name="GenIntervalInMinutes" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="SendIntervalInMinutes" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="StartHour" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="StartMinute" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

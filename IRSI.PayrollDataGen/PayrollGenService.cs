@@ -7,21 +7,29 @@ using Atlas;
 using Autofac;
 using Autofac.Integration.Wcf;
 using IRSI.PayrollDataGen.Payroll;
+using IRSI.PayrollDataGen.Properties;
+using NLog;
 using Quartz;
 
 namespace IRSI.PayrollDataGen
 {
   public class PayrollGenService : IAmAHostedProcess
   {
-    const int IntervalInHours = 2;
-    const int IntervalInDays = 1;
+    private int m_GenIntervalInMinutes = Settings.Default.GenIntervalInMinutes;
+    private int m_SendIntervalInMinutes = Settings.Default.SendIntervalInMinutes;
+    private int m_StartHour = Settings.Default.StartHour;
+    private int m_StartMinute = Settings.Default.StartMinute;
 
     public IScheduler Scheduler { get; set; }
     public IJobListener AutofacJobListener { get; set; }
     public ServiceHost Host { get; set; }
 
+    private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
     public void Start()
     {
+      _logger.Debug($"Starting Service");
+
       var genjob = JobBuilder.Create<PayrollGenJob>()
         .WithIdentity("Job1")
         .Build();
@@ -32,20 +40,26 @@ namespace IRSI.PayrollDataGen
 
       var gentrigger = TriggerBuilder.Create().ForJob(genjob)
         .WithIdentity("Trigger1")
-        .StartAt(DateBuilder.DateOf(5, 0, 0))
-        .WithSimpleSchedule(x => x.WithIntervalInMinutes(10))
-        .EndAt(DateBuilder.DateOf(6, 0, 0))
+        .WithDailyTimeIntervalSchedule(x =>
+          x.StartingDailyAt(new TimeOfDay(m_StartHour, m_StartMinute))
+            .WithIntervalInMinutes(m_GenIntervalInMinutes)
+        )
         .Build();
 
       var sendtrigger = TriggerBuilder.Create().ForJob(sendjob)
         .WithIdentity("Trigger2")
-        .StartAt(DateBuilder.DateOf(5, 0, 0))
-        .WithSimpleSchedule(x => x.WithIntervalInMinutes(15))
-        .EndAt(DateBuilder.DateOf(6, 0, 0))
+        .WithDailyTimeIntervalSchedule(x =>
+          x.StartingDailyAt(new TimeOfDay(m_StartHour, m_StartMinute))
+            .WithIntervalInMinutes(m_SendIntervalInMinutes)
+        )
         .Build();
 
       Scheduler.ScheduleJob(genjob, gentrigger);
       Scheduler.ScheduleJob(sendjob, sendtrigger);
+
+      _logger.Debug($"GenJob next run at {gentrigger.GetNextFireTimeUtc()?.ToLocalTime()}");
+      _logger.Debug($"SendJob next run at {sendtrigger.GetNextFireTimeUtc()?.ToLocalTime()}");
+
       Scheduler.ListenerManager.AddJobListener(AutofacJobListener);
       Scheduler.Start();
 

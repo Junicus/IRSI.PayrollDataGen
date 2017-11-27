@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using IRSI.PayrollDataGen.Ftp;
 using IRSI.PayrollDataGen.Properties;
@@ -18,32 +19,39 @@ namespace IRSI.PayrollDataGen
 
     public void Execute(IJobExecutionContext context)
     {
-      var currentFolder = Directory.GetCurrentDirectory();
-      var ftpSettings = new List<FtpSetting>();
-      var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "ftpurl.json"));
-      var o = JObject.Parse(json);
-      var urls = o["ftpSettings"].Select(u => (string)u).ToList();
-      var ftpOutputDirectory = Path.Combine(Directory.GetCurrentDirectory(), "ftpOutput");
+      _logger.Debug($"PayrollSendJob running at {context.FireTimeUtc?.ToLocalTime()}");
 
-      foreach (var url in urls)
+      try
       {
-        ftpSettings.Add(ParseFtpSettingsLine(url));
-      }
+        var currentFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        var ftpSettings = new List<FtpSetting>();
+        var json = File.ReadAllText(Path.Combine(currentFolder, "ftpurl.json"));
+        var o = JObject.Parse(json);
+        var urls = o["ftpSettings"].Select(u => (string)u).ToList();
+        var ftpOutputDirectory = Path.Combine(currentFolder, "ftpOutput");
 
-      foreach (var ftpSetting in ftpSettings)
+        foreach (var url in urls)
+        {
+          ftpSettings.Add(ParseFtpSettingsLine(url));
+        }
+
+        foreach (var ftpSetting in ftpSettings)
+        {
+          if (!Directory.Exists(ftpOutputDirectory))
+          {
+            Directory.CreateDirectory(ftpOutputDirectory);
+          }
+          foreach (var file in Directory.GetFiles(ftpOutputDirectory))
+          {
+            var uri = new Uri($"ftp://{ftpSetting.Url}/{ftpSetting.Path}/{Path.GetFileName(file)}");
+            FtpSendPayroll.SendFile(uri, ftpSetting.Username, ftpSetting.Password, File.ReadAllBytes(file), ftpSetting.UsePassive);
+          }
+        }
+      } catch(Exception ex)
       {
-        if (!Directory.Exists(ftpOutputDirectory))
-        {
-          Directory.CreateDirectory(ftpOutputDirectory);
-        }
-        foreach (var file in Directory.GetFiles(ftpOutputDirectory))
-        {
-          var uri = new Uri($"ftp://{ftpSetting.Url}/{ftpSetting.Path}/{Path.GetFileName(file)}");
-          FtpSendPayroll.SendFile(uri, ftpSetting.Username, ftpSetting.Password, File.ReadAllBytes(file), ftpSetting.UsePassive);
-        }
+        _logger.Error(ex.Message);
       }
-
-      return;
+      _logger.Debug($"Next PayrollSendJob will run at {context.NextFireTimeUtc?.ToLocalTime()}");
     }
 
     private FtpSetting ParseFtpSettingsLine(string setting)

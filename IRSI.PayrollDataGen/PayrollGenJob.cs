@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using IRSI.PayrollDataGen.Payroll;
 using IRSI.PayrollDataGen.Properties;
@@ -21,13 +22,15 @@ namespace IRSI.PayrollDataGen
     {
       var iberdir = Environment.GetEnvironmentVariable("IBERDIR");
       var datedFolders = Directory.GetDirectories(iberdir, "20??????");
-      var currentFolder = Directory.GetCurrentDirectory();
+      var currentFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
       var ftpOutputFolder = Path.Combine(currentFolder, "ftpOutput");
       var portalOutputFolder = Path.Combine(currentFolder, "portalOutput");
 
+      _logger.Debug($"PayrollGenJob running at {context.FireTimeUtc?.ToLocalTime()}");
+
       foreach (var datedFolder in datedFolders)
       {
-        _logger.Info($"Checking: {datedFolder}");
+        //_logger.Info($"Checking: {datedFolder}");
         var markerFilePath = Path.Combine(datedFolder, "IRSIPAYGEN");
         if (!File.Exists(markerFilePath))
         {
@@ -54,10 +57,12 @@ namespace IRSI.PayrollDataGen
           } 
         } else
         {
-          _logger.Info($"Marker file found, skipping");
+          //_logger.Info($"Marker file found, skipping");
         }
         using (var filestream = File.Create(markerFilePath)) { };
       }
+
+      _logger.Debug($"Next PayrollGenJob will run at {context.NextFireTimeUtc?.ToLocalTime()}");
     }
 
     private string GetOutputFilename(string datedFolderName, string outputPath)

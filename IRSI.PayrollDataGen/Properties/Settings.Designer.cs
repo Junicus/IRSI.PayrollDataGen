@@ -58,5 +58,53 @@ namespace IRSI.PayrollDataGen.Properties {
                 this["StoreName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int GenIntervalInMinutes {
+            get {
+                return ((int)(this["GenIntervalInMinutes"]));
+            }
+            set {
+                this["GenIntervalInMinutes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int SendIntervalInMinutes {
+            get {
+                return ((int)(this["SendIntervalInMinutes"]));
+            }
+            set {
+                this["SendIntervalInMinutes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int StartHour {
+            get {
+                return ((int)(this["StartHour"]));
+            }
+            set {
+                this["StartHour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int StartMinute {
+            get {
+                return ((int)(this["StartMinute"]));
+            }
+            set {
+                this["StartMinute"] = value;
+            }
+        }
     }
 }
