@@ -8,6 +8,6 @@ namespace IRSI.PayrollDataGen.Payroll
 {
   public interface IPayrollConverter
   {
-    List<Employee> ConvertPayroll(AlohaData alohaData);
+    List<Employee> ConvertPayroll(AlohaData alohaData, TipsCalculation tipCalculationStrategy);
   }
 }

@@ -63,10 +63,18 @@ namespace IRSI.PayrollDataGen
       Scheduler.ListenerManager.AddJobListener(AutofacJobListener);
       Scheduler.Start();
 
-      var container = SetupPayrollGenRESTServiceContainer();
-      Host = new ServiceHost(typeof(PayrollGenRESTService));
-      Host.AddDependencyInjectionBehavior<IPayrollGenRESTService>(container);
-      Host.Open();
+      _logger.Debug("Starting REST endpoint");
+      try
+      {
+        var container = SetupPayrollGenRESTServiceContainer();
+        Host = new ServiceHost(typeof(PayrollGenRESTService));
+        Host.AddDependencyInjectionBehavior<IPayrollGenRESTService>(container);
+        Host.Open();
+        _logger.Debug("REST endpoint started");
+      } catch (Exception ex)
+      {
+        _logger.Error(ex, ex.Message);
+      }
     }
 
     public void Stop()

@@ -9,7 +9,7 @@ namespace IRSI.PayrollDataGen.Payroll
 {
   public interface IPayrollWriter
   {
-    void WriteFile(List<Employee> employees, string filename);
-    void WriteStream(List<Employee> employees, StreamWriter streamWriter);
+    void WriteFile(List<Employee> employees, string filename, int storeId, string storeName);
+    void WriteStream(List<Employee> employees, StreamWriter streamWriter, int storeId, string storeName);
   }
 }

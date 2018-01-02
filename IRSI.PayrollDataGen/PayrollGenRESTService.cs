@@ -9,6 +9,8 @@ using System.ServiceModel.Web;
 using System.Text;
 using IRSI.PayrollDataGen.Payroll;
 using IRSI.PayrollDataGen.Payroll.Model;
+using IRSI.PayrollDataGen.Properties;
+using NLog;
 
 namespace IRSI.PayrollDataGen
 {
@@ -17,6 +19,8 @@ namespace IRSI.PayrollDataGen
     private readonly IPayrollReader _payrollReader;
     private readonly IPayrollConverter _payrollConverter;
     private readonly IPayrollWriter _payrollWriter;
+
+    private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
     public PayrollGenRESTService(IPayrollReader payrollReader, IPayrollConverter payrollConverter, IPayrollWriter payrollWriter)
     {
@@ -27,6 +31,7 @@ namespace IRSI.PayrollDataGen
 
     public string PayrollGenPost(string startDate, string endDate)
     {
+      _logger.Debug($"PayrollGenPost REST endpoint called with args startDate: {startDate} and endDate: {endDate}");
       var datedStart = DateTime.ParseExact(startDate, "yyyyMMdd", CultureInfo.InvariantCulture);
       var datedEnd = DateTime.ParseExact(endDate, "yyyyMMdd", CultureInfo.InvariantCulture);
       var iberdir = Environment.GetEnvironmentVariable("IBERDIR");
@@ -54,7 +59,7 @@ namespace IRSI.PayrollDataGen
       var employeeLists = new List<List<Employee>>();
       foreach (var dataSet in alohaDatasets)
       {
-        employeeLists.Add(_payrollConverter.ConvertPayroll(dataSet));
+        employeeLists.Add(_payrollConverter.ConvertPayroll(dataSet, Settings.Default.TipCalculationStrategy));
       }
 
       var flatEmployees = FlattenEmployeeList(employeeLists);
@@ -64,7 +69,7 @@ namespace IRSI.PayrollDataGen
       {
         using (var streamWriter = new StreamWriter(memoryStream))
         {
-          _payrollWriter.WriteStream(flatEmployees, streamWriter);
+          _payrollWriter.WriteStream(flatEmployees, streamWriter, Settings.Default.StoreId, Settings.Default.StoreName);
           using (var sr = new StreamReader(memoryStream))
           {
             memoryStream.Position = 0;

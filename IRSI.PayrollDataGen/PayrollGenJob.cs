@@ -41,7 +41,7 @@ namespace IRSI.PayrollDataGen
           if (payrollData != null)
           {
             _logger.Debug($"Begin converting payroll");
-            var payrollResult = PayrollConverter.ConvertPayroll(payrollData);
+            var payrollResult = PayrollConverter.ConvertPayroll(payrollData, Settings.Default.TipCalculationStrategy);
             _logger.Debug($"Finish converting payroll");
 
             _logger.Info($"Checking output folders and creating if not found");
@@ -50,16 +50,16 @@ namespace IRSI.PayrollDataGen
 
             _logger.Debug($"Begin writing files");
             _logger.Debug($"Writing {GetOutputFilename(datedFolder, ftpOutputFolder)}");
-            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, ftpOutputFolder));
+            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, ftpOutputFolder), Settings.Default.StoreId, Settings.Default.StoreName);
             _logger.Debug($"Writing {GetOutputFilename(datedFolder, portalOutputFolder)}");
-            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, portalOutputFolder));
+            PayrollWriter.WriteFile(payrollResult, GetOutputFilename(datedFolder, portalOutputFolder), Settings.Default.StoreId, Settings.Default.StoreName);
             _logger.Debug($"Finished writing files");
-          } 
+          }
+          using (var filestream = File.Create(markerFilePath)) { };
         } else
         {
           //_logger.Info($"Marker file found, skipping");
         }
-        using (var filestream = File.Create(markerFilePath)) { };
       }
 
       _logger.Debug($"Next PayrollGenJob will run at {context.NextFireTimeUtc?.ToLocalTime()}");

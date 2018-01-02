@@ -6,10 +6,10 @@
       <Value Profile="(Default)">Auto</Value>
     </Setting>
     <Setting Name="StoreId" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">109</Value>
+      <Value Profile="(Default)">116</Value>
     </Setting>
     <Setting Name="StoreName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Chili's Carolina</Value>
+      <Value Profile="(Default)">Chili's Dorado</Value>
     </Setting>
     <Setting Name="GenIntervalInMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>

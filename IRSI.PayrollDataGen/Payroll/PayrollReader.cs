@@ -44,7 +44,7 @@ namespace IRSI.PayrollDataGen.Payroll
         return data;
       } catch (Exception e)
       {
-        _logger.Error(e, $"Error loading payroll tables");
+        _logger.Error(e, $"Error loading payroll tables: {e.Message}");
       }
 
       return null;
